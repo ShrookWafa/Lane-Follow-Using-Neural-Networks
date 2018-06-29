@@ -20,11 +20,15 @@ yt2 = Y3' == 2;
 yt3 = Y3' == 3;
 Y_test = [yt1; yt2; yt3];
 
+% Normalization
+X_train = X_train./255;
+X_test = X_test./255;
+
 % Initializing the needed variables
 S = size(X_train);
-learning_rate = 0.008;
-num_iterations = 1200;
-lambda = 0.01; % regularization coefficient
+learning_rate = 0.03;
+num_iterations = 1500;
+lambda = 0.03; % regularization coefficient
 m = S(2); % number of examples
 n_x = S(1); % input layer size
 n_h = 50; % one hidden layer with 50 hidden units
@@ -47,7 +51,7 @@ for i=1:num_iterations,
 
     % Print out cost to check the progress
     cost = (-1/m) * sum(sum(Y_train.*log(A2)+(1-Y_train).*log(1-A2)));
-    cost = cost + lambda/(2*m)*(sum(sum(W1*W1'))+sum(sum(W2*W2')));
+    cost = cost + lambda/(2*m)*(sum(sum(W1*W1'))+sum(sum(W2*W2'))); % adding regularization term
     if mod(i,100)==0,
         fprintf('%d\n',cost);
     end
