@@ -39,32 +39,32 @@ b2 = zeros(n_y, 1);
 % The training
 for i=1:num_iterations,
     
-% Forward Propagation
-Z1 = W1*X_train + repmat(b1, [1 S(2)]);
-A1 = tanh(Z1);
-Z2 = W2*A1 + repmat(b2, [1 S(2)]);
-A2 = tanh(Z2);
+    % Forward Propagation
+    Z1 = W1*X_train + repmat(b1, [1 S(2)]);
+    A1 = tanh(Z1);
+    Z2 = W2*A1 + repmat(b2, [1 S(2)]);
+    A2 = tanh(Z2);
 
-% Print out cost to check the progress
-cost = (-1/m) * sum(sum(Y_train.*log(A2)+(1-Y_train).*log(1-A2)));
-cost = cost + lambda/(2*m)*(sum(sum(W1*W1'))+sum(sum(W2*W2')));
-if mod(i,100)==0,
-    fprintf('%d\n',cost);
-end
+    % Print out cost to check the progress
+    cost = (-1/m) * sum(sum(Y_train.*log(A2)+(1-Y_train).*log(1-A2)));
+    cost = cost + lambda/(2*m)*(sum(sum(W1*W1'))+sum(sum(W2*W2')));
+    if mod(i,100)==0,
+        fprintf('%d\n',cost);
+    end
 
-% Backward Propagation 
-dZ2 = A2 - Y_train;
-dW2 = (1/m) .* dZ2*A1' + lambda/m*W2;
-db2 = (1/m) * sum(dZ2,2);
-dZ1 = (W2'*dZ2) .* (1 - power(A1, 2));
-dW1 = (1/m) .* dZ1*X_train' + lambda/m*W1;
-db1 = (1/m) .* sum(dZ1,2);
+    % Backward Propagation 
+    dZ2 = A2 - Y_train;
+    dW2 = (1/m) .* dZ2*A1' + lambda/m*W2;
+    db2 = (1/m) * sum(dZ2,2);
+    dZ1 = (W2'*dZ2) .* (1 - power(A1, 2));
+    dW1 = (1/m) .* dZ1*X_train' + lambda/m*W1;
+    db1 = (1/m) .* sum(dZ1,2);
 
-% Updating parameters
-W1 = W1 - learning_rate.*dW1;
-b1 = b1 - learning_rate.*db1;
-W2 = W2 - learning_rate.*dW2;
-b2 = b2 - learning_rate.*db2;
+    % Updating parameters
+    W1 = W1 - learning_rate.*dW1;
+    b1 = b1 - learning_rate.*db1;
+    W2 = W2 - learning_rate.*dW2;
+    b2 = b2 - learning_rate.*db2;
 
 end
 
